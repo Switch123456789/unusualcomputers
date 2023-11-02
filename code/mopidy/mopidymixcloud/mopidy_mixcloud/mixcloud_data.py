@@ -2,7 +2,7 @@ from mopidy.models import Ref,Track,Album,Artist
 import requests
 import urllib
 import sys
-import youtube_dl
+import yt_dlp
 from .util import LocalData,MixcloudException
 from .uris import *
 # backwards compatibility
@@ -191,7 +191,7 @@ def get_refs_for_uri(uri,max_tracks):
     return get_tracks_refs_for_uri(uri,max_tracks)[1]
 
 # get stream url
-ydl=youtube_dl.YoutubeDL()
+ydl=yt_dlp.YoutubeDL()
 def get_stream_url(uri):
     url=cache.urls.get(uri)
     if url is not None:
@@ -477,7 +477,7 @@ def list_users(uri, max_artists):
         
     more=next_page_uri(json)
     so_far = len(artists)
-    if more is not None and so_far < max_artusts:
+    if more is not None and so_far < max_artists:
             more_artists=list_users(make_uri(more),max_artists-so_far)
             artists=artists+more_artists
     return artists
